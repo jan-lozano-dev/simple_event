@@ -40,11 +40,11 @@ export default function Component() {
           const centerY = y * gridSize
           const distanceFromCenter = Math.sqrt(
             Math.pow(centerX - width / 2, 2) +
-            Math.pow(centerY - height / 2, 2)
+            Math.pow(centerY - window.innerHeight / 2, 2)
           )
           const maxDistance = Math.sqrt(
             Math.pow(width / 2, 2) +
-            Math.pow(height / 2, 2)
+            Math.pow(window.innerHeight / 2, 2)
           )
           const normalizedDistance = distanceFromCenter / maxDistance
           
