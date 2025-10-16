@@ -16,33 +16,35 @@ export default function Component() {
 
     const resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1
-      const rect = canvas.getBoundingClientRect()
+      const width = window.innerWidth
+      const height = window.innerHeight + 100 // Add extra height for mobile browsers
 
-      canvas.width = rect.width * dpr
-      canvas.height = rect.height * dpr
+      canvas.width = width * dpr
+      canvas.height = height * dpr
 
       ctx.scale(dpr, dpr)
-      canvas.style.width = rect.width + 'px'
-      canvas.style.height = rect.height + 'px'
+      canvas.style.width = width + 'px'
+      canvas.style.height = height + 'px'
     }
 
     const drawHalftoneWave = () => {
       const gridSize = 20
-      const rect = canvas.getBoundingClientRect()
-      const rows = Math.ceil(rect.height / gridSize)
-      const cols = Math.ceil(rect.width / gridSize)
+      const width = window.innerWidth
+      const height = window.innerHeight + 100
+      const rows = Math.ceil(height / gridSize)
+      const cols = Math.ceil(width / gridSize)
 
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           const centerX = x * gridSize
           const centerY = y * gridSize
           const distanceFromCenter = Math.sqrt(
-            Math.pow(centerX - rect.width / 2, 2) +
-            Math.pow(centerY - rect.height / 2, 2)
+            Math.pow(centerX - width / 2, 2) +
+            Math.pow(centerY - height / 2, 2)
           )
           const maxDistance = Math.sqrt(
-            Math.pow(rect.width / 2, 2) +
-            Math.pow(rect.height / 2, 2)
+            Math.pow(width / 2, 2) +
+            Math.pow(height / 2, 2)
           )
           const normalizedDistance = distanceFromCenter / maxDistance
           
@@ -58,9 +60,10 @@ export default function Component() {
     }
 
     const animate = () => {
-      const rect = canvas.getBoundingClientRect()
+      const width = window.innerWidth
+      const height = window.innerHeight + 100
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
-      ctx.fillRect(0, 0, rect.width, rect.height)
+      ctx.fillRect(0, 0, width, height)
 
       drawHalftoneWave()
 
@@ -79,5 +82,5 @@ export default function Component() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="w-full bg-black" style={{ height: '100vh', height: '100dvh' }} />
+  return <canvas ref={canvasRef} className="w-full bg-black" style={{ height: '100vh', minHeight: '100vh', position: 'fixed', top: 0, left: 0, zIndex: -1 }} />
 }
