@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { useState, type FormEvent, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,6 +18,18 @@ export default function ContactForm({ onClose }: ContactFormProps) {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
+
+  useEffect(() => {
+    // Prevent scrolling when form is open
+    document.body.style.overflow = 'hidden'
+    document.body.style.height = '100vh'
+
+    // Cleanup function to restore scrolling when form closes
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.body.style.height = 'unset'
+    }
+  }, [])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
