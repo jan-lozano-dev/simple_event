@@ -1,12 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import HalftoneWaves from "@/components/halftone-waves"
 import ContactForm from "@/components/contact-form"
 import { Button } from "@/components/ui/button"
 
 export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false)
+
+  useEffect(() => {
+    // Prevent scrolling on the main page
+    document.body.style.overflow = 'hidden'
+    document.body.style.height = '100vh'
+  }, [])
 
   return (
     <main className="relative">
