@@ -15,26 +15,34 @@ export default function Component() {
     let time = 0
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      const dpr = window.devicePixelRatio || 1
+      const rect = canvas.getBoundingClientRect()
+
+      canvas.width = rect.width * dpr
+      canvas.height = rect.height * dpr
+
+      ctx.scale(dpr, dpr)
+      canvas.style.width = rect.width + 'px'
+      canvas.style.height = rect.height + 'px'
     }
 
     const drawHalftoneWave = () => {
       const gridSize = 20
-      const rows = Math.ceil(canvas.height / gridSize)
-      const cols = Math.ceil(canvas.width / gridSize)
+      const rect = canvas.getBoundingClientRect()
+      const rows = Math.ceil(rect.height / gridSize)
+      const cols = Math.ceil(rect.width / gridSize)
 
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           const centerX = x * gridSize
           const centerY = y * gridSize
           const distanceFromCenter = Math.sqrt(
-            Math.pow(centerX - canvas.width / 2, 2) + 
-            Math.pow(centerY - canvas.height / 2, 2)
+            Math.pow(centerX - rect.width / 2, 2) +
+            Math.pow(centerY - rect.height / 2, 2)
           )
           const maxDistance = Math.sqrt(
-            Math.pow(canvas.width / 2, 2) + 
-            Math.pow(canvas.height / 2, 2)
+            Math.pow(rect.width / 2, 2) +
+            Math.pow(rect.height / 2, 2)
           )
           const normalizedDistance = distanceFromCenter / maxDistance
           
@@ -50,8 +58,9 @@ export default function Component() {
     }
 
     const animate = () => {
+      const rect = canvas.getBoundingClientRect()
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.fillRect(0, 0, rect.width, rect.height)
 
       drawHalftoneWave()
 
@@ -70,5 +79,5 @@ export default function Component() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="w-full h-screen bg-black" />
+  return <canvas ref={canvasRef} className="w-full bg-black" style={{ height: '100vh', height: '100dvh' }} />
 }
