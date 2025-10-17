@@ -14,7 +14,7 @@ export default function ContactForm({ onClose }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
-    email: "",
+    phone: "",
     honeypot: "", // Bot detection field
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -108,17 +108,17 @@ export default function ContactForm({ onClose }: ContactFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground">
-              Email
+            <Label htmlFor="phone" className="text-foreground">
+              Número de telèfon (+34)
             </Label>
             <Input
-              id="email"
-              type="email"
+              id="phone"
+              type="tel"
               required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               className="bg-background border-border text-foreground focus:ring-ring"
-              placeholder="Introdueix el teu correu electrònic"
+              placeholder="Introdueix el teu número de telèfon"
             />
           </div>
 
@@ -135,6 +135,10 @@ export default function ContactForm({ onClose }: ContactFormProps) {
             />
           </div>
 
+
+          <p className="text-xs text-muted-foreground mt-2">
+            Les teves dades s'empren per registrarte a la festa privada.
+          </p>
 
           {submitMessage && (
             <p className={`text-sm pt-2 ${submitMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
