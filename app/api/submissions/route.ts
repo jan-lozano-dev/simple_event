@@ -4,20 +4,20 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, surname, email } = body
+    const { name, surname, phone } = body
 
-    if (!name || !surname || !email) {
+    if (!name || !surname || !phone) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
       )
     }
 
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    // Basic phone validation (at least 9 digits)
+    const phoneRegex = /[\d\s+()-]{9,}/
+    if (!phoneRegex.test(phone)) {
       return NextResponse.json(
-        { error: 'Invalid email format' },
+        { error: 'Invalid phone format' },
         { status: 400 }
       )
     }
@@ -28,15 +28,15 @@ export async function POST(request: NextRequest) {
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         surname VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
+        phone VARCHAR(255) NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
     `
 
     // Insert submission
     await sql`
-      INSERT INTO submissions (name, surname, email)
-      VALUES (${name}, ${surname}, ${email})
+      INSERT INTO submissions (name, surname, phone)
+      VALUES (${name}, ${surname}, ${phone})
     `
 
     return NextResponse.json(
