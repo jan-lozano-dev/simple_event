@@ -15,6 +15,7 @@ export default function ContactForm({ onClose }: ContactFormProps) {
     name: "",
     surname: "",
     email: "",
+    honeypot: "", // Bot detection field
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState("")
@@ -121,7 +122,19 @@ export default function ContactForm({ onClose }: ContactFormProps) {
             />
           </div>
 
-          <p className="text-sm text-muted-foreground pt-2">*5€ barra lliure, xarrup obligatori al entrar</p>
+          {/* Honeypot field - hidden from users but visible to bots */}
+          <div style={{ display: 'none' }}>
+            <Label htmlFor="website">Website (leave blank)</Label>
+            <Input
+              id="website"
+              type="text"
+              value={formData.honeypot}
+              onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
 
           {submitMessage && (
             <p className={`text-sm pt-2 ${submitMessage.includes("Error") ? "text-red-500" : "text-green-500"}`}>
